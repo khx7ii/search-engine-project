@@ -1,0 +1,7 @@
+Information Retrieval is the process of finding relevant documents from a collection of data. Search engines like Google use indexing and ranking algorithms.
+
+hello every body 
+love you 
+hi
+test
+hoof
