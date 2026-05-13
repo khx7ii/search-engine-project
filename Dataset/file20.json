@@ -1,0 +1,5 @@
+{
+    "id": 5,
+    "topic": "Information Retrieval",
+    "content": "Information Retrieval is a major field in computer science that focuses on finding relevant information from large collections of data. Search engines use Information Retrieval techniques to analyze user queries, process keywords, and rank documents according to relevance. Modern systems rely on indexing, query processing, and ranking algorithms to provide accurate search results quickly. The field has become increasingly important because of the massive growth of digital content and online databases."
+}
