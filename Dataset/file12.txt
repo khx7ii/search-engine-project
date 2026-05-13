@@ -1,3 +1,6 @@
+<<<<<<< HEAD
 kholod
 
+=======
+>>>>>>> 5773e556e65a0fbc5d3d4ae4c297f24539550154
 Machine Learning is a branch of Artificial Intelligence that enables computers to learn from data and improve their performance automatically. Instead of being programmed with fixed instructions, machine learning systems identify patterns and make predictions based on previous examples. Applications of Machine Learning include recommendation systems, image recognition, speech processing, fraud detection, and predictive analytics. The combination of Machine Learning with Information Retrieval has made search systems smarter and more personalized.

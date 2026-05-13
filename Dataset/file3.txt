@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Information Retrieval is the process of finding relevant documents from a collection of data. Search engines like Google use indexing and ranking algorithms.
 
 hello every body 
@@ -5,3 +6,12 @@ love you
 hi
 test
 hoof
+=======
+Information Retrieval is the process of finding relevant documents from a collection of data. Search engines like Google use indexing and ranking algorithms.
+
+hello every body 
+love you 
+hi
+test
+hoof
+>>>>>>> 5773e556e65a0fbc5d3d4ae4c297f24539550154

@@ -1,4 +1,10 @@
+<<<<<<< HEAD
 id,name,description
 1,iPhone,Apple smartphone with advanced camera
 2,TV,Samsung smart television with 4K display
+=======
+id,name,description
+1,iPhone,Apple smartphone with advanced camera
+2,TV,Samsung smart television with 4K display
+>>>>>>> 5773e556e65a0fbc5d3d4ae4c297f24539550154
 3,Laptop,Dell laptop for programming and gaming

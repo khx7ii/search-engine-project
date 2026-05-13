@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 [
   {
     "name": "Mouse",
@@ -7,4 +8,15 @@
     "name": "Keyboard",
     "description": "Mechanical keyboard for search and gaming"
   }
+=======
+[
+  {
+    "name": "Mouse",
+    "description": "Wireless gaming mouse with RGB lights"
+  },
+  {
+    "name": "Keyboard",
+    "description": "Mechanical keyboard for search and gaming"
+  }
+>>>>>>> 5773e556e65a0fbc5d3d4ae4c297f24539550154
 ]
