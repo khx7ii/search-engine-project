@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <!DOCTYPE html>
 <html>
 
@@ -88,13 +87,10 @@
     <!-- DATE RANGE FILTER        -->
     <!-- ========================= -->
     <div class="filters">
-
         <label><b>Modified from</b></label>
         <input type="date" id="start_date">
-
         <label>to</label>
         <input type="date" id="end_date">
-
     </div>
 
     <hr>
@@ -136,7 +132,6 @@
         // GET INDEX FILE TYPES
         // =========================
         function getIndexTypes() {
-
             return Array.from(
                 document.querySelectorAll('input.index-type:checked')
             ).map(cb => cb.value);
@@ -146,7 +141,6 @@
         // GET SEARCH FILTER TYPES
         // =========================
         function getSearchTypes() {
-
             return Array.from(
                 document.querySelectorAll('input.search-type:checked')
             ).map(cb => cb.value);
@@ -160,7 +154,6 @@
             let selectedTypes = getIndexTypes();
 
             if (selectedTypes.length === 0) {
-
                 alert("Please select at least one file type");
                 return;
             }
@@ -196,54 +189,32 @@
             let q = document.getElementById("q").value;
 
             if (!q) {
-
                 alert("Please enter a search query");
                 return;
             }
 
-            // search-time file type filter
             let selectedTypes = getSearchTypes();
-
-            // date range
             let startDate = document.getElementById("start_date").value;
             let endDate = document.getElementById("end_date").value;
 
-            // base URL
             let url = `http://127.0.0.1:8000/search?q=${q}&page=${page}`;
 
-            // =========================
-            // FILE TYPE FILTER
-            // =========================
             if (selectedTypes.length > 0) {
-
                 url += `&types=${selectedTypes.join(",")}`;
             }
 
-            // =========================
-            // DATE RANGE FILTER
-            // =========================
             if (startDate && endDate) {
-
                 url += `&start_date=${startDate}&end_date=${endDate}`;
             }
 
-            // request
             let res = await fetch(url);
-
             let data = await res.json();
 
             let total = data.total;
-
-            // IMPORTANT:
-            // must match backend size
             let pageSize = 5;
-
-            // total pages
             let totalPages = Math.ceil(total / pageSize);
 
-            // results container
             let box = document.getElementById("results");
-
             box.innerHTML = "";
 
             // =========================
@@ -254,7 +225,6 @@
                 let suggestionHtml = "";
 
                 if (data.suggestion) {
-
                     suggestionHtml = `
                         <p>
                             Did you mean:
@@ -268,11 +238,8 @@
 
                 box.innerHTML = `
                     <h3>No results found ❌</h3>
-
                     ${suggestionHtml}
-
                     <br>
-
                     <button disabled>Prev</button>
                     <button disabled>Next</button>
                 `;
@@ -284,32 +251,13 @@
             // SHOW RESULTS
             // =========================
             data.results.forEach(r => {
-
                 box.innerHTML += `
-
                     <div class="result">
-
                         <h3>${r.filename}</h3>
-
-                        <p>
-                            <b>Type:</b>
-                            ${r.filetype}
-                        </p>
-
-                        <p>
-                            <b>Modified:</b>
-                            ${r.modified}
-                        </p>
-
-                        <p class="snippet">
-                            ${r.snippet || "No preview"}
-                        </p>
-
-                        <p>
-                            <b>Score:</b>
-                            ${r.score}
-                        </p>
-
+                        <p><b>Type:</b> ${r.filetype}</p>
+                        <p><b>Modified:</b> ${r.modified}</p>
+                        <p class="snippet">${r.snippet || "No preview"}</p>
+                        <p><b>Score:</b> ${r.score}</p>
                     </div>
                 `;
             });
@@ -318,20 +266,9 @@
             // PAGING BUTTONS
             // =========================
             box.innerHTML += `
-
                 <br><br>
-
-                <button
-                    onclick="search(${page - 1})"
-                    ${page <= 1 ? 'disabled' : ''}>
-                    Prev
-                </button>
-
-                <button
-                    onclick="search(${page + 1})"
-                    ${page >= totalPages ? 'disabled' : ''}>
-                    Next
-                </button>
+                <button onclick="search(${page - 1})" ${page <= 1 ? 'disabled' : ''}>Prev</button>
+                <button onclick="search(${page + 1})" ${page >= totalPages ? 'disabled' : ''}>Next</button>
             `;
         }
 
@@ -340,86 +277,39 @@
         // =========================
         async function loadStats() {
 
-            let res = await fetch(
-                "http://127.0.0.1:8000/stats"
-            );
-
+            let res = await fetch("http://127.0.0.1:8000/stats");
             let data = await res.json();
 
             let statsBox = document.getElementById("stats");
-
             let byTypeHtml = "";
             let topTermsHtml = "";
 
-            // =========================
-            // FILE TYPES
-            // =========================
             if (data.by_type && data.by_type.length > 0) {
-
                 data.by_type.forEach(t => {
-
-                    byTypeHtml += `
-                        <li>
-                            ${t.type.toUpperCase()} :
-                            <b>${t.count}</b>
-                        </li>
-                    `;
+                    byTypeHtml += `<li>${t.type.toUpperCase()} : <b>${t.count}</b></li>`;
                 });
-
             } else {
-
                 byTypeHtml = "<li>No data</li>";
             }
 
-            // =========================
-            // TOP TERMS
-            // =========================
             if (data.top_terms && data.top_terms.length > 0) {
-
                 data.top_terms.forEach(term => {
-
-                    topTermsHtml += `
-                        <li>
-                            ${term.term}
-                            (<b>${term.count}</b>)
-                        </li>
-                    `;
+                    topTermsHtml += `<li>${term.term} (<b>${term.count}</b>)</li>`;
                 });
-
             } else {
-
                 topTermsHtml = "<li>No terms</li>";
             }
 
-            // =========================
-            // SHOW STATS
-            // =========================
             statsBox.innerHTML = `
-
                 <div class="result">
-
                     <h3>Total Indexed Files</h3>
-
-                    <p>
-                        <b>${data.total}</b>
-                    </p>
-
+                    <p><b>${data.total}</b></p>
                     <hr>
-
                     <h3>Files By Type</h3>
-
-                    <ul>
-                        ${byTypeHtml}
-                    </ul>
-
+                    <ul>${byTypeHtml}</ul>
                     <hr>
-
                     <h3>Top Terms</h3>
-
-                    <ul>
-                        ${topTermsHtml}
-                    </ul>
-
+                    <ul>${topTermsHtml}</ul>
                 </div>
             `;
         }
@@ -429,7 +319,6 @@
         // =========================
         document.getElementById('q')
             .addEventListener('keydown', e => {
-
                 if (e.key === 'Enter') {
                     search(1);
                 }
@@ -439,297 +328,4 @@
 
 </body>
 
-=======
-<!DOCTYPE html>
-<html>
-
-<head>
-    <title>Mini Search Engine</title>
-
-    <style>
-        body {
-            font-family: Arial;
-            margin: 30px;
-        }
-
-        input,
-        button {
-            padding: 10px;
-            margin: 5px;
-        }
-
-        .result {
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin-top: 10px;
-        }
-
-        .snippet em {
-            background-color: yellow;
-            color: black;
-            font-style: normal;
-            font-weight: bold;
-        }
-
-        .filters {
-            margin-top: 15px;
-        }
-
-        button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-    </style>
-</head>
-
-<body>
-
-    <h1> Mini Search Engine </h1>
-
-    <br>
-
-    <!-- ========================= -->
-    <!-- INDEX FILE TYPE SELECT   -->
-    <!-- ========================= -->
-    <h2> 1. Build / Rebuild Index </h2>
-
-    <label><input type="checkbox" class="index-type" value="pdf"> PDF</label>
-    <label><input type="checkbox" class="index-type" value="txt"> TXT</label>
-    <label><input type="checkbox" class="index-type" value="csv"> CSV</label>
-    <label><input type="checkbox" class="index-type" value="json"> JSON</label>
-    <label><input type="checkbox" class="index-type" value="xlsx"> XLSX</label>
-
-    <button onclick="buildIndex()">
-        Build Index
-    </button>
-
-    <hr>
-
-    <h2> 2. Search </h2>
-
-    <!-- ========================= -->
-    <!-- SEARCH INPUT              -->
-    <!-- ========================= -->
-    <input id="q" placeholder="Search here...">
-    <button onclick="search()">Search</button>
-
-    <!-- ========================= -->
-    <!-- SEARCH FILE TYPE FILTER  -->
-    <!-- ========================= -->
-    <div class="filters">
-        <label><b>Filter by Type:</b></label>
-        <label><input type="checkbox" class="search-type" value="pdf"> PDF</label>
-        <label><input type="checkbox" class="search-type" value="txt"> TXT</label>
-        <label><input type="checkbox" class="search-type" value="csv"> CSV</label>
-        <label><input type="checkbox" class="search-type" value="json"> JSON</label>
-        <label><input type="checkbox" class="search-type" value="xlsx"> XLSX</label>
-    </div>
-
-    <!-- ========================= -->
-    <!-- DATE RANGE FILTER        -->
-    <!-- ========================= -->
-    <div class="filters">
-        <label> <b>Modified from </b></label>
-        <input type="date" id="start_date">
-
-        <label>to</label>
-        <input type="date" id="end_date">
-    </div>
-
-    <hr>
-
-    <!-- ========================= -->
-    <!-- RESULTS                  -->
-    <!-- ========================= -->
-    <div id="results"></div>
-
-    <script>
-
-        // =========================
-        // CURRENT PAGE
-        // =========================
-        let currentPage = 1;
-
-        // =========================
-        // GET INDEX FILE TYPES
-        // =========================
-        function getIndexTypes() {
-            return Array.from(
-                document.querySelectorAll('input.index-type:checked')
-            ).map(cb => cb.value);
-        }
-
-        // =========================
-        // GET SEARCH FILTER TYPES
-        // =========================
-        function getSearchTypes() {
-            return Array.from(
-                document.querySelectorAll('input.search-type:checked')
-            ).map(cb => cb.value);
-        }
-
-        // =========================
-        // BUILD INDEX
-        // =========================
-        async function buildIndex() {
-
-            let selectedTypes = getIndexTypes();
-
-            if (selectedTypes.length === 0) {
-                alert("Please select at least one file type");
-                return;
-            }
-
-            let res = await fetch(
-                "http://127.0.0.1:8000/build-index",
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        selected_types: selectedTypes
-                    })
-                }
-            );
-
-            let data = await res.json();
-
-            alert(
-                "Index Built Successfully\n\n" +
-                "Indexed Files: " + data.indexed_files
-            );
-        }
-
-
-        // =========================
-        // SEARCH FUNCTION
-        // =========================
-        async function search(page = 1) {
-
-            currentPage = page;
-
-            let q = document.getElementById("q").value;
-
-            if (!q) {
-                alert("Please enter a search query");
-                return;
-            }
-
-            // search-time file type filter
-            let selectedTypes = getSearchTypes();
-
-            // date range
-            let startDate = document.getElementById("start_date").value;
-            let endDate = document.getElementById("end_date").value;
-
-            // base URL
-            let url = `http://127.0.0.1:8000/search?q=${q}&page=${page}`;
-
-            // =========================
-            // FILE TYPE FILTER
-            // =========================
-            if (selectedTypes.length > 0) {
-                url += `&types=${selectedTypes.join(",")}`;
-            }
-
-            // =========================
-            // DATE RANGE FILTER
-            // =========================
-            if (startDate && endDate) {
-                url += `&start_date=${startDate}&end_date=${endDate}`;
-            }
-
-            // request
-            let res = await fetch(url);
-
-            let data = await res.json();
-
-            let total = data.total;
-
-            // IMPORTANT:
-            // must match backend size
-            let pageSize = 5;
-
-            // total pages
-            let totalPages = Math.ceil(total / pageSize);
-
-            // results container
-            let box = document.getElementById("results");
-
-            box.innerHTML = "";
-
-            // =========================
-            // NO RESULTS
-            // =========================
-            if (!data.results || data.results.length === 0) {
-
-                let suggestionHtml = "";
-
-                if (data.suggestion) {
-                    suggestionHtml = `
-                        <p>Did you mean: 
-                            <a href="#" onclick="document.getElementById('q').value='${data.suggestion}'; search(); return false;">
-                                <b>${data.suggestion}</b>
-                            </a>?
-                        </p>
-                    `;
-                }
-
-                box.innerHTML = `
-                    <h3>No results found ❌</h3>
-                    ${suggestionHtml}
-                    <br>
-                    <button disabled>Prev</button>
-                    <button disabled>Next</button>
-                `;
-
-                return;
-            }
-
-            // =========================
-            // SHOW RESULTS
-            // =========================
-            data.results.forEach(r => {
-
-                box.innerHTML += `
-
-                    <div class="result">
-
-                        <h3>${r.filename}</h3>
-
-                        <p><b>Type:</b> ${r.filetype}</p>
-
-                        <p><b>Modified:</b> ${r.modified}</p>
-
-                        <p class="snippet">
-                            ${r.snippet || "No preview"}
-                        </p>
-
-                        <p><b>Score:</b> ${r.score}</p>
-
-                    </div>
-                `;
-            });
-
-            // =========================
-            // PAGING BUTTONS
-            // =========================
-            box.innerHTML += `
-                <br><br>
-                <button onclick="search(${page - 1})" ${page <= 1 ? 'disabled' : ''}>
-                    Prev
-                </button>
-
-                <button onclick="search(${page + 1})" ${page >= totalPages ? 'disabled' : ''}>
-                    Next
-                </button>
-            `;
-        }
-
-    </script>
-
-</body>
-
->>>>>>> 5773e556e65a0fbc5d3d4ae4c297f24539550154
 </html>
