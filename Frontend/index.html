@@ -46,9 +46,7 @@
 
     <br>
 
-    <!-- ========================= -->
     <!-- INDEX FILE TYPE SELECT   -->
-    <!-- ========================= -->
     <h2> 1. Build / Rebuild Index </h2>
 
     <label><input type="checkbox" class="index-type" value="pdf"> PDF</label>
@@ -65,15 +63,12 @@
 
     <h2> 2. Search </h2>
 
-    <!-- ========================= -->
-    <!-- SEARCH INPUT              -->
-    <!-- ========================= -->
+    <!-- SEARCH INPUT -->
     <input id="q" placeholder="Search here...">
     <button onclick="search()">Search</button>
 
-    <!-- ========================= -->
+
     <!-- SEARCH FILE TYPE FILTER  -->
-    <!-- ========================= -->
     <div class="filters">
         <label><b>Filter by Type:</b></label>
         <label><input type="checkbox" class="search-type" value="pdf"> PDF</label>
@@ -83,9 +78,7 @@
         <label><input type="checkbox" class="search-type" value="xlsx"> XLSX</label>
     </div>
 
-    <!-- ========================= -->
     <!-- DATE RANGE FILTER        -->
-    <!-- ========================= -->
     <div class="filters">
         <label><b>Modified from</b></label>
         <input type="date" id="start_date">
@@ -95,12 +88,10 @@
 
     <hr>
 
-    <!-- ========================= -->
-    <!-- STATS SECTION            -->
-    <!-- ========================= -->
+    <!-- STATS SECTION -->
     <section>
 
-        <h3 style="margin-top:0">3. Stats</h3>
+        <h2 style="margin-top:0">3. Stats</h2>
 
         <div class="row">
             <button onclick="loadStats()">
@@ -116,39 +107,30 @@
 
     <hr>
 
-    <!-- ========================= -->
-    <!-- RESULTS                  -->
-    <!-- ========================= -->
+    <!-- RESULTS -->
     <div id="results"></div>
 
     <script>
 
-        // =========================
         // CURRENT PAGE
-        // =========================
         let currentPage = 1;
 
-        // =========================
         // GET INDEX FILE TYPES
-        // =========================
         function getIndexTypes() {
             return Array.from(
                 document.querySelectorAll('input.index-type:checked')
             ).map(cb => cb.value);
         }
 
-        // =========================
+  
         // GET SEARCH FILTER TYPES
-        // =========================
         function getSearchTypes() {
             return Array.from(
                 document.querySelectorAll('input.search-type:checked')
             ).map(cb => cb.value);
         }
 
-        // =========================
         // BUILD INDEX
-        // =========================
         async function buildIndex() {
 
             let selectedTypes = getIndexTypes();
@@ -179,9 +161,7 @@
             );
         }
 
-        // =========================
         // SEARCH FUNCTION
-        // =========================
         async function search(page = 1) {
 
             currentPage = page;
@@ -217,9 +197,8 @@
             let box = document.getElementById("results");
             box.innerHTML = "";
 
-            // =========================
+        
             // NO RESULTS
-            // =========================
             if (!data.results || data.results.length === 0) {
 
                 let suggestionHtml = "";
@@ -237,7 +216,7 @@
                 }
 
                 box.innerHTML = `
-                    <h3>No results found ❌</h3>
+                    <h3>No results found </h3>
                     ${suggestionHtml}
                     <br>
                     <button disabled>Prev</button>
@@ -247,9 +226,8 @@
                 return;
             }
 
-            // =========================
-            // SHOW RESULTS
-            // =========================
+          
+            // SHOW RESULTS  
             data.results.forEach(r => {
                 box.innerHTML += `
                     <div class="result">
@@ -262,9 +240,8 @@
                 `;
             });
 
-            // =========================
-            // PAGING BUTTONS
-            // =========================
+          
+            // PAGING BUTTONS        
             box.innerHTML += `
                 <br><br>
                 <button onclick="search(${page - 1})" ${page <= 1 ? 'disabled' : ''}>Prev</button>
@@ -272,9 +249,7 @@
             `;
         }
 
-        // =========================
         // LOAD STATS
-        // =========================
         async function loadStats() {
 
             let res = await fetch("http://127.0.0.1:8000/stats");
@@ -314,9 +289,7 @@
             `;
         }
 
-        // =========================
         // ENTER KEY SEARCH
-        // =========================
         document.getElementById('q')
             .addEventListener('keydown', e => {
                 if (e.key === 'Enter') {
@@ -327,5 +300,4 @@
     </script>
 
 </body>
-
 </html>

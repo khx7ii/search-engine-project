@@ -12,9 +12,7 @@ FOLDER = "../dataset"
 ALLOWED_TYPES = ["txt", "pdf", "csv", "json", "xlsx"]
 
 
-# =========================
 # EXTRACT TEXT
-# =========================
 def extract(file_path):
 
     ext = file_path.split(".")[-1].lower()
@@ -53,14 +51,10 @@ def extract(file_path):
         return ""
 
 
-# =========================
 # BUILD INDEX
-# =========================
 def build_index(selected_types=None):
 
-    # =========================
     # CREATE INDEX WITH MAPPING
-    # =========================
     if es.indices.exists(index="files"):
         es.indices.delete(index="files")
 
@@ -120,3 +114,5 @@ def build_index(selected_types=None):
 
 if __name__ == "__main__":
     build_index()
+
+    

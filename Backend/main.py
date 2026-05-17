@@ -7,9 +7,8 @@ from index_files import build_index
 app = FastAPI()
 es = Elasticsearch("http://localhost:9200")
 
-# =========================
+
 # CORS
-# =========================
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -18,18 +17,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
-# =========================
 # HOME
-# =========================
 @app.get("/")
 def home():
     return {"message": "Mini Search Engine Running"}
 
 
-# =========================
 # QUERY BUILDER
-# =========================
 def build_query(q: str):
 
     q = q.strip()
@@ -70,10 +64,7 @@ def build_query(q: str):
         }
     }
 
-
-# =========================
 # BUILD INDEX API
-# =========================
 @app.post("/build-index")
 async def build_index_api(request: Request):
 
@@ -85,15 +76,14 @@ async def build_index_api(request: Request):
     return {"indexed_files": count}
 
 
-# =========================
 # SEARCH
-# =========================
 @app.get("/search")
 def search(q: str, page: int = 1, types: str = None,
            start_date: str = None, end_date: str = None):
 
     size = 5
 
+    # Pagination
     body = {
         "from": (page - 1) * size,
         "size": size,
@@ -144,9 +134,7 @@ def search(q: str, page: int = 1, types: str = None,
             "snippet":  snippet
         })
 
-    # =========================
     # SUGGESTION
-    # =========================
     suggestion = None
 
     if not results and q.strip():
@@ -179,9 +167,8 @@ def search(q: str, page: int = 1, types: str = None,
     }
 
 
-# =========================
+
 # STATS
-# =========================
 @app.get("/stats")
 def stats():
 
@@ -212,7 +199,6 @@ def stats():
     return {
         "total": count,
 
-        # "type" عشان يتطابق مع الـ frontend
         "by_type": [
             {
                 "type":  b["key"],
@@ -229,3 +215,5 @@ def stats():
             for b in agg["aggregations"]["top_terms"]["buckets"]
         ]
     }
+
+
